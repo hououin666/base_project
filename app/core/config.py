@@ -1,5 +1,7 @@
+from sys import prefix
+
 from pydantic import BaseModel, PostgresDsn
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class RunConfig(BaseModel):
@@ -8,7 +10,7 @@ class RunConfig(BaseModel):
 
 
 class DatabaseConfig(BaseModel):
-    url: PostgresDsn =  'postgresql+asyncpg'
+    url: PostgresDsn
     echo: bool = False
     echo_pool: bool = False
     max_overflow: int = 10
@@ -16,6 +18,7 @@ class DatabaseConfig(BaseModel):
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file='.env', case_sensitive=False, env_nested_delimiter='__', env_prefix='FASTAPI__', )
     run: RunConfig = RunConfig()
     db: DatabaseConfig
 
