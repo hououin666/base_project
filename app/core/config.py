@@ -23,3 +23,4 @@ class Settings(BaseSettings):
     db: DatabaseConfig
 
 settings = Settings()
+print(settings.db.url)
